@@ -45,11 +45,15 @@ mat-list-item div {
   height: 48px;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 16px;
   padding: 0 16px;
 
   &:hover {
     background-color: rgba(0, 0, 0, 0.2);
     cursor: pointer;
   }
+}
+
+.router-container {
+  padding: 16px 56px;
 }
