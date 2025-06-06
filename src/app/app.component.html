@@ -1,25 +1,29 @@
-<mat-toolbar>
-  <button
-    matIconButton
-    class="example-icon"
-    aria-label="Example icon-button with menu icon"
-  >
-    <mat-icon>menu</mat-icon>
-  </button>
-  <span>CRM</span>
-  <span class="example-spacer"></span>
-  <button
-    matIconButton
-    class="example-icon favorite-icon"
-    aria-label="Example icon-button with heart icon"
-  >
-    <mat-icon>favorite</mat-icon>
-  </button>
-  <button
-    matIconButton
-    class="example-icon"
-    aria-label="Example icon-button with share icon"
-  >
-    <mat-icon>share</mat-icon>
-  </button>
-</mat-toolbar>
+<mat-drawer-container class="mat-drawer-container" autosize>
+  <mat-drawer #drawer class="sidenav" [opened]="true" mode="side">
+    <div class="logo-container">
+      <img src="" alt="Logo" />
+    </div>
+    <mat-list role="list">
+      <mat-list-item>
+        <div><mat-icon>dashboard_2</mat-icon>Dashboard</div>
+      </mat-list-item>
+      <mat-list-item>
+        <div><mat-icon>account_circle</mat-icon>User</div>
+      </mat-list-item>
+    </mat-list>
+  </mat-drawer>
+
+  <div class="example-sidenav-content">
+    <mat-toolbar>
+      <button
+        mat-icon-button
+        aria-label="Example icon-button with menu icon"
+        type="button"
+        (click)="drawer.toggle()"
+      >
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span>CRM</span>
+    </mat-toolbar>
+  </div>
+</mat-drawer-container>
