@@ -21,6 +21,10 @@ html {
   min-height: 56px;
   display: flex;
   align-items: center;
+
+  img {
+    width: 150px;
+  }
 }
 
 .mat-drawer-container {
