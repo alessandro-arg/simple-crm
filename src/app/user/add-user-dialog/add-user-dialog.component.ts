@@ -5,6 +5,7 @@ import {
   MatDialogRef,
   MatDialogTitle,
 } from '@angular/material/dialog';
+import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -12,7 +13,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { User } from '../../../models/user.class';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { Firestore, collection, addDoc } from '@angular/fire/firestore';
@@ -33,6 +34,7 @@ import { Firestore, collection, addDoc } from '@angular/fire/firestore';
     FormsModule,
     MatProgressBarModule,
     MatSnackBarModule,
+    CommonModule,
   ],
   templateUrl: './add-user-dialog.component.html',
   styleUrl: './add-user-dialog.component.scss',
@@ -52,7 +54,12 @@ export class AddUserDialogComponent {
     this.dialogRef.close();
   }
 
-  async saveUser() {
+  async saveUser(form: NgForm) {
+    if (form.invalid) {
+      form.control.markAllAsTouched();
+      return;
+    }
+
     this.user.birthDate = this.birthDate.getTime();
     console.log('Current user is ', this.user);
     this.loading = true;
