@@ -3,3 +3,28 @@
   right: 56px;
   bottom: 20px;
 }
+
+table {
+  width: 100%;
+}
+
+.mat-mdc-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+td,
+th {
+  width: 25%;
+}
+
+.mat-mdc-row {
+  &:hover {
+    background-color: whitesmoke;
+    cursor: pointer;
+  }
+}
+
+.no-data-row {
+  padding: 16px !important;
+}

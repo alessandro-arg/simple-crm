@@ -14,6 +14,7 @@ import { provideNativeDateAdapter } from '@angular/material/core';
 import { User } from '../../../models/user.class';
 import { FormsModule } from '@angular/forms';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { Firestore, collection, addDoc } from '@angular/fire/firestore';
 
 @Component({
@@ -31,6 +32,7 @@ import { Firestore, collection, addDoc } from '@angular/fire/firestore';
     MatDatepickerModule,
     FormsModule,
     MatProgressBarModule,
+    MatSnackBarModule,
   ],
   templateUrl: './add-user-dialog.component.html',
   styleUrl: './add-user-dialog.component.scss',
@@ -41,7 +43,10 @@ export class AddUserDialogComponent {
   birthDate!: Date;
   loading = false;
 
-  constructor(public dialogRef: MatDialogRef<AddUserDialogComponent>) {}
+  constructor(
+    public dialogRef: MatDialogRef<AddUserDialogComponent>,
+    private snackBar: MatSnackBar
+  ) {}
 
   onNoClick(): void {
     this.dialogRef.close();
@@ -57,7 +62,17 @@ export class AddUserDialogComponent {
       const result = await addDoc(usersRef, this.user.toJSON());
     } catch (err) {
       console.error('Error adding user:', err);
+      this.snackBar.open('Failed to create user.', 'Close', {
+        duration: 3000,
+        panelClass: ['snackbar-error'],
+        verticalPosition: 'bottom',
+      });
     } finally {
+      this.snackBar.open('User created successfully!', 'Close', {
+        duration: 3000,
+        panelClass: ['snackbar-success'],
+        verticalPosition: 'bottom',
+      });
       this.loading = false;
       this.dialogRef.close();
     }

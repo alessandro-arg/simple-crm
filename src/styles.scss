@@ -2,7 +2,30 @@ html,
 body {
   height: 100%;
 }
+
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+:root {
+  .snackbar-success {
+    --mdc-snackbar-container-color: #4caf50 !important;
+    --mdc-snackbar-supporting-text-color: white !important;
+    font-weight: 500;
+
+    .mat-mdc-button {
+      color: #ffffff !important;
+      font-weight: 400;
+    }
+  }
+
+  .snackbar-error {
+    --mdc-snackbar-container-color: #f44336 !important;
+    --mdc-snackbar-supporting-text-color: white !important;
+
+    .mat-mdc-button {
+      color: #ffffff !important;
+    }
+  }
 }
