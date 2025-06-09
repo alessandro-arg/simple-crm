@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
@@ -9,6 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-user-profile',
@@ -28,15 +29,15 @@ import { MatNativeDateModule } from '@angular/material/core';
   templateUrl: './user-detail.component.html',
   styleUrl: './user-detail.component.scss',
 })
-export class UserDetailComponent {
-  user = {
-    fullName: '',
-    email: '',
-    phone: '',
-    birthDate: null,
-    gender: '',
-    location: '',
-  };
+export class UserDetailComponent implements OnInit {
+  userId!: string | null;
 
-  genders = ['Male', 'Female', 'Other'];
+  constructor(private route: ActivatedRoute) {}
+
+  ngOnInit(): void {
+    this.route.paramMap.subscribe((paramMap) => {
+      this.userId = paramMap.get('id');
+      console.log('user ID is:', this.userId);
+    });
+  }
 }

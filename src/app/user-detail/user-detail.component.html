@@ -1,59 +1,17 @@
 <mat-card class="profile-card">
-  <div class="profile-header">
-    <img
-      src="https://via.placeholder.com/100"
-      alt="Profile"
-      class="profile-img"
-    />
-    <div class="profile-info">
-      <h2>{{ user.fullName || "Full Name" }}</h2>
-      <p>{{ user.email || "Email Address" }}</p>
-    </div>
+  <img class="profile-picture" src="./../../assets/img/profile.png" alt="" />
+  <div class="name-email-container">
+    <h2>Test User</h2>
+    <p>emailETemail.com</p>
   </div>
+</mat-card>
 
-  <form class="profile-form">
-    <mat-form-field appearance="fill">
-      <mat-label>Full Name</mat-label>
-      <input matInput [(ngModel)]="user.fullName" name="fullName" />
-    </mat-form-field>
-
-    <mat-form-field appearance="fill">
-      <mat-label>Email</mat-label>
-      <input matInput type="email" [(ngModel)]="user.email" name="email" />
-    </mat-form-field>
-
-    <mat-form-field appearance="fill">
-      <mat-label>Phone Number</mat-label>
-      <input matInput type="tel" [(ngModel)]="user.phone" name="phone" />
-    </mat-form-field>
-
-    <mat-form-field appearance="fill">
-      <mat-label>Date of Birth</mat-label>
-      <input
-        matInput
-        [matDatepicker]="picker"
-        [(ngModel)]="user.birthDate"
-        name="birthDate"
-      />
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field>
-
-    <mat-form-field appearance="fill">
-      <mat-label>Gender</mat-label>
-      <mat-select [(ngModel)]="user.gender" name="gender">
-        <mat-option *ngFor="let g of genders" [value]="g">{{ g }}</mat-option>
-      </mat-select>
-    </mat-form-field>
-
-    <mat-form-field appearance="fill">
-      <mat-label>Location</mat-label>
-      <input matInput [(ngModel)]="user.location" name="location" />
-    </mat-form-field>
-
-    <div class="button-group">
-      <button mat-flat-button color="primary">Save</button>
-      <button mat-button type="reset">Cancel</button>
-    </div>
-  </form>
+<mat-card class="adress">
+  <mat-card-header>
+    <mat-card-title>Adress</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    asdasd 34 <br />
+    12345 asdsdad
+  </mat-card-content>
 </mat-card>
