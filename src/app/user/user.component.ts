@@ -6,6 +6,7 @@ import {
   OnInit,
   OnDestroy,
 } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
@@ -26,6 +27,7 @@ import { Observable, Subscription } from 'rxjs';
   selector: 'app-user',
   standalone: true,
   imports: [
+    RouterLink,
     MatIcon,
     MatButtonModule,
     MatTooltipModule,
