@@ -1,8 +1,8 @@
 <mat-card class="profile-card">
   <img class="profile-picture" src="./../../assets/img/profile.png" alt="" />
   <div class="name-email-container">
-    <h2>Test User</h2>
-    <p>emailETemail.com</p>
+    <h2>{{ user.firstName }} {{ user.lastName }}</h2>
+    <p>{{ user.email }}</p>
   </div>
 </mat-card>
 
@@ -11,7 +11,7 @@
     <mat-card-title>Adress</mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    asdasd 34 <br />
-    12345 asdsdad
+    {{ user.street }} <br />
+    {{ user.zipCode }} {{ user.city }}
   </mat-card-content>
 </mat-card>
