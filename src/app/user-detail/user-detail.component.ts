@@ -2,6 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
+import { MatMenuModule } from '@angular/material/menu';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
@@ -9,10 +10,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { ActivatedRoute } from '@angular/router';
 import { doc, Firestore, docData } from '@angular/fire/firestore';
 import { Subscription } from 'rxjs';
 import { User } from '../../models/user.class';
+import { MatDialog } from '@angular/material/dialog';
+import { EditUserDialogComponent } from './edit-user-dialog/edit-user-dialog.component';
 
 @Component({
   selector: 'app-user-profile',
@@ -28,6 +32,8 @@ import { User } from '../../models/user.class';
     MatSelectModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatTooltipModule,
+    MatMenuModule,
   ],
   templateUrl: './user-detail.component.html',
   styleUrl: './user-detail.component.scss',
@@ -39,12 +45,13 @@ export class UserDetailComponent implements OnInit {
   userSubscription?: Subscription;
   user: User = new User();
 
-  constructor(private route: ActivatedRoute) {}
+  position = 'left';
+
+  constructor(private route: ActivatedRoute, public dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((paramMap) => {
       this.userId = paramMap.get('id');
-      console.log('user ID is:', this.userId);
       if (this.userId) {
         this.getUser();
       }
@@ -60,11 +67,19 @@ export class UserDetailComponent implements OnInit {
     this.userSubscription = user$.subscribe({
       next: (user) => {
         this.user = new User(user);
-        console.log('User data:', this.user);
       },
       error: (error) => {
         console.error('Error fetching user:', error);
       },
     });
+  }
+
+  openEditUser() {
+    const userId = this.route.snapshot.paramMap.get('id');
+    if (userId) {
+      this.dialog.open(EditUserDialogComponent, {
+        data: { userId: userId },
+      });
+    }
   }
 }

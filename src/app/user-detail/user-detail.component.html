@@ -7,8 +7,24 @@
 </mat-card>
 
 <mat-card class="adress">
+  <button
+    mat-icon-button
+    matTooltip="Edit user"
+    matTooltipPosition="left"
+    class="edit-btn"
+    [matMenuTriggerFor]="adressMenu"
+  >
+    <mat-icon>more_horiz</mat-icon>
+  </button>
+  <mat-menu #adressMenu="matMenu" xPosition="before">
+    <button mat-menu-item (click)="openEditUser()">
+      <mat-icon>edit_note</mat-icon>
+      <span>Edit user</span>
+    </button>
+  </mat-menu>
+
   <mat-card-header>
-    <mat-card-title>Adress</mat-card-title>
+    <mat-card-title>User info</mat-card-title>
   </mat-card-header>
   <mat-card-content>
     {{ user.street }} <br />
