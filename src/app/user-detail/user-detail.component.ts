@@ -76,9 +76,13 @@ export class UserDetailComponent implements OnInit {
 
   openEditUser() {
     const userId = this.route.snapshot.paramMap.get('id');
-    if (userId) {
+    if (userId && this.user) {
+      const userCopy = JSON.parse(JSON.stringify(this.user));
       this.dialog.open(EditUserDialogComponent, {
-        data: { userId: userId },
+        data: {
+          userId: userId,
+          user: userCopy,
+        },
       });
     }
   }

@@ -17,7 +17,7 @@ import { User } from '../../../models/user.class';
 import { FormsModule, NgForm } from '@angular/forms';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { Firestore, doc, docData, updateDoc } from '@angular/fire/firestore';
+import { Firestore, doc, updateDoc } from '@angular/fire/firestore';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -43,19 +43,22 @@ import { Subscription } from 'rxjs';
 })
 export class EditUserDialogComponent implements OnInit {
   firestore = inject(Firestore);
-  birthDate!: Date;
   loading = false;
 
   userId!: string | null;
   userSubscription?: Subscription;
-  user: User = new User();
+  user!: User;
+  originalUser!: User;
+  birthDate!: Date;
 
   constructor(
     public dialogRef: MatDialogRef<EditUserDialogComponent>,
     private snackBar: MatSnackBar,
-    @Inject(MAT_DIALOG_DATA) public data: { userId: string }
+    @Inject(MAT_DIALOG_DATA) public data: { userId: string; user: any }
   ) {
     this.userId = data.userId;
+    this.originalUser = new User(data.user);
+    this.user = new User(data.user);
   }
 
   onNoClick(): void {
@@ -63,32 +66,16 @@ export class EditUserDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.userId) {
-      this.getUser();
+    if (this.user && this.user.birthDate) {
+      this.birthDate = new Date(this.user.birthDate);
     }
   }
 
-  getUser() {
-    if (!this.userId) return;
-    this.loading = true;
-    const userDocRef = doc(this.firestore, 'users', this.userId);
-    this.userSubscription = docData(userDocRef, { idField: 'id' }).subscribe({
-      next: (userData) => {
-        if (userData) {
-          this.user = new User(userData);
-          this.birthDate = new Date(this.user.birthDate);
-        }
-        this.loading = false;
-      },
-      error: (error) => {
-        console.error('Error fetching user:', error);
-        this.loading = false;
-      },
-    });
-  }
-
   async saveUser(form: NgForm) {
-    if (form.invalid || !this.userId) {
+    if (form.invalid || !this.userId) return;
+
+    if (!this.hasUserChanged()) {
+      this.dialogRef.close();
       return;
     }
 
@@ -123,5 +110,27 @@ export class EditUserDialogComponent implements OnInit {
     } finally {
       this.loading = false;
     }
+  }
+
+  hasUserChanged(): boolean {
+    const fields: (keyof User)[] = [
+      'firstName',
+      'lastName',
+      'email',
+      'street',
+      'zipCode',
+      'city',
+    ];
+
+    for (const field of fields) {
+      if (this.user[field] !== this.originalUser[field]) {
+        return true;
+      }
+    }
+
+    return (
+      this.birthDate.getTime() !==
+      new Date(this.originalUser.birthDate).getTime()
+    );
   }
 }

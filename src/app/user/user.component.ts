@@ -64,7 +64,6 @@ export class UserComponent implements AfterViewInit, OnInit, OnDestroy {
       this.users$ = collectionData(usersRef, { idField: 'id' });
 
       this.usersSubscription = this.users$.subscribe((users) => {
-        console.log('Users changed:', users);
         this.allUsers = users as User[];
         this.dataSource.data = this.allUsers;
       });
