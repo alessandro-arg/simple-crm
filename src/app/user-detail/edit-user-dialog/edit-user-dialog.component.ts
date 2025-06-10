@@ -16,6 +16,7 @@ import { provideNativeDateAdapter } from '@angular/material/core';
 import { User } from '../../../models/user.class';
 import { FormsModule, NgForm } from '@angular/forms';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { Firestore, doc, docData, updateDoc } from '@angular/fire/firestore';
 import { Subscription } from 'rxjs';
 
@@ -34,6 +35,7 @@ import { Subscription } from 'rxjs';
     MatDatepickerModule,
     FormsModule,
     MatProgressBarModule,
+    MatSnackBarModule,
     CommonModule,
   ],
   templateUrl: './edit-user-dialog.component.html',
@@ -50,6 +52,7 @@ export class EditUserDialogComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<EditUserDialogComponent>,
+    private snackBar: MatSnackBar,
     @Inject(MAT_DIALOG_DATA) public data: { userId: string }
   ) {
     this.userId = data.userId;
@@ -104,9 +107,19 @@ export class EditUserDialogComponent implements OnInit {
         zipCode: this.user.zipCode,
         city: this.user.city,
       });
+      this.snackBar.open('User updated successfully!', 'Close', {
+        duration: 3000,
+        panelClass: ['snackbar-success'],
+        verticalPosition: 'bottom',
+      });
       this.dialogRef.close(this.user);
     } catch (error) {
       console.error('Error updating user:', error);
+      this.snackBar.open('Failed to update the user.', 'Close', {
+        duration: 3000,
+        panelClass: ['snackbar-error'],
+        verticalPosition: 'bottom',
+      });
     } finally {
       this.loading = false;
     }
