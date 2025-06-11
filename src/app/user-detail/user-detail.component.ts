@@ -11,12 +11,13 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { ActivatedRoute } from '@angular/router';
-import { doc, Firestore, docData } from '@angular/fire/firestore';
+import { ActivatedRoute, Router } from '@angular/router';
+import { doc, Firestore, docData, deleteDoc } from '@angular/fire/firestore';
 import { Subscription } from 'rxjs';
 import { User } from '../../models/user.class';
 import { MatDialog } from '@angular/material/dialog';
 import { EditUserDialogComponent } from './edit-user-dialog/edit-user-dialog.component';
+import { DeleteUserDialogComponent } from '../delete-user-dialog/delete-user-dialog.component';
 
 @Component({
   selector: 'app-user-profile',
@@ -47,7 +48,11 @@ export class UserDetailComponent implements OnInit {
 
   position = 'left';
 
-  constructor(private route: ActivatedRoute, public dialog: MatDialog) {}
+  constructor(
+    private route: ActivatedRoute,
+    public dialog: MatDialog,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((paramMap) => {
@@ -85,5 +90,21 @@ export class UserDetailComponent implements OnInit {
         },
       });
     }
+  }
+
+  openDeleteUser() {
+    const dialogRef = this.dialog.open(DeleteUserDialogComponent);
+
+    dialogRef.afterClosed().subscribe(async (confirmed) => {
+      if (confirmed && this.userId) {
+        try {
+          const userDocRef = doc(this.firestore, 'users', this.userId);
+          await deleteDoc(userDocRef);
+          this.router.navigate(['/user']);
+        } catch (error) {
+          console.log('Error deleting user:', error);
+        }
+      }
+    });
   }
 }
